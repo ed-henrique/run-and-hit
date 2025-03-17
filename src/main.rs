@@ -1,7 +1,8 @@
 use bevy::prelude::*;
 
-const PLAYER_ACCEL: f32 = 60.0;
+const PLAYER_ACCEL: f32 = 30.0;
 const PLAYER_SPEED: f32 = 600.0;
+const PLAYER_DASH_SPEED_FACTOR: f32 = 30.0;
 
 #[derive(Component)]
 struct Player;
@@ -55,7 +56,7 @@ fn move_player(
 
     // Dash
     if keyboard_input.just_pressed(KeyCode::ShiftLeft) {
-        dir *= 10.0;
+        dir *= PLAYER_DASH_SPEED_FACTOR;
     }
 
     dir = dir * PLAYER_SPEED;
