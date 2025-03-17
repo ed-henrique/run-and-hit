@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
-const PLAYER_SPEED: f32 = 500.0;
-const PLAYER_ACCEL: f32 = 30.0;
+const PLAYER_ACCEL: f32 = 60.0;
+const PLAYER_SPEED: f32 = 600.0;
 
 #[derive(Component)]
 struct Player;
@@ -50,9 +50,15 @@ fn move_player(
         dir.y -= 1.0;
     }
 
+    // Handle diagonal moving being faster than horizontal/vertical
     dir = dir.normalize_or_zero();
-    dir = dir * PLAYER_SPEED;
 
+    // Dash
+    if keyboard_input.just_pressed(KeyCode::ShiftLeft) {
+        dir *= 10.0;
+    }
+
+    dir = dir * PLAYER_SPEED;
     player_velocity.0 = vel.lerp(dir, PLAYER_ACCEL * time.delta_secs());
 
     // Update position with frame-rate independent movement
